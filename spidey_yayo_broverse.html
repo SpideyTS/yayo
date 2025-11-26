@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIDEY x YAYO: THE BROVERSE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Intro Section */
+        .intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(45deg, #000, #1a0000, #0d0015, #000);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .intro.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .glitch-title {
+            font-size: clamp(2rem, 8vw, 5rem);
+            font-weight: 900;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            animation: glitch 1s infinite;
+        }
+
+        .glitch-title span {
+            background: linear-gradient(45deg, #ff0040, #ff00ff, #8000ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 0, 64, 0.8);
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .tap-enter {
+            margin-top: 40px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: transparent;
+            border: 3px solid #ff0040;
+            color: #ff0040;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        .tap-enter:hover {
+            background: #ff0040;
+            color: #000;
+            box-shadow: 0 0 30px #ff0040;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 10px #ff0040; }
+            50% { box-shadow: 0 0 30px #ff0040; }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff0040, #8000ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 0, 64, 0.5);
+            animation: glitchText 3s infinite;
+        }
+
+        @keyframes glitchText {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-1px, 1px); }
+            94% { transform: translate(1px, -1px); }
+        }
+
+        /* Countdown */
+        .countdown-container {
+            text-align: center;
+        }
+
+        .countdown-joke {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #ff00ff;
+            margin-bottom: 20px;
+        }
+
+        .countdown {
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 900;
+            color: #ff0040;
+            text-shadow: 0 0 20px #ff0040, 0 0 40px #ff0040;
+            animation: glitch 2s infinite;
+        }
+
+        /* Bros Section */
+        .bros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .bro-card {
+            background: linear-gradient(135deg, rgba(255, 0, 64, 0.1), rgba(128, 0, 255, 0.1));
+            border: 2px solid #ff0040;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .bro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 0, 64, 0.5);
+        }
+
+        .bro-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 0, 64, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bro-card h3 {
+            font-size: 1.5rem;
+            color: #ff00ff;
+            margin-bottom: 10px;
+        }
+
+        .bro-card p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .stat-box {
+            background: rgba(255, 0, 64, 0.1);
+            border: 3px solid #8000ff;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stat-box:nth-child(even) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .stat-box h3 {
+            font-size: 1.2rem;
+            color: #ff00ff;
+            margin-bottom: 10px;
+        }
+
+        .stat-box .stat-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ff0040;
+            text-shadow: 0 0 20px #ff0040;
+        }
+
+        /* Letter Section */
+        .letter-panel {
+            max-width: 800px;
+            background: linear-gradient(135deg, rgba(255, 0, 64, 0.15), rgba(128, 0, 255, 0.15));
+            border: 3px solid #ff0040;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 0, 64, 0.3);
+        }
+
+        .letter-panel::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #ff0040, #8000ff, #ff00ff, #ff0040);
+            background-size: 400%;
+            animation: borderGlow 3s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .letter-panel p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            line-height: 1.8;
+            color: #fff;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .letter-panel p:nth-child(1) { animation-delay: 0.2s; }
+        .letter-panel p:nth-child(2) { animation-delay: 0.4s; }
+        .letter-panel p:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff0040, #8000ff);
+            box-shadow: 0 0 20px rgba(255, 0, 64, 0.5);
+        }
+
+        .timeline-item {
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: 50%;
+            padding-right: 40px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 50%;
+            padding-left: 40px;
+        }
+
+        .timeline-content {
+            background: linear-gradient(135deg, rgba(255, 0, 64, 0.2), rgba(128, 0, 255, 0.2));
+            border: 2px solid #ff00ff;
+            padding: 25px;
+            position: relative;
+        }
+
+        .timeline-content h3 {
+            color: #ff0040;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ff0040;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ff0040;
+            animation: pulse 2s infinite;
+        }
+
+        /* Buttons */
+        .chaos-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .chaos-btn {
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0040, #8000ff);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .chaos-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 64, 0.8);
+        }
+
+        .chaos-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Ending Section */
+        .ending {
+            text-align: center;
+            position: relative;
+        }
+
+        .ending h2 {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            animation: glitch 1s infinite;
+        }
+
+        .spider-float {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spiderFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes spiderFloat {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -60%) rotate(180deg); }
+        }
+
+        .spider-float::before {
+            content: '🕷️';
+            font-size: 4rem;
+            filter: drop-shadow(0 0 20px #ff0040);
+        }
+
+        /* Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-10px, 0); }
+            20%, 40%, 60%, 80% { transform: translate(10px, 0); }
+        }
+
+        body.shaking {
+            animation: shake 0.5s;
+        }
+
+        /* Flash Animation */
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        body.flashing::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 64, 0.3);
+            animation: flash 0.3s 3;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #ff0040, #8000ff);
+            padding: 40px;
+            border: 3px solid #fff;
+            font-size: 2rem;
+            font-weight: 900;
+            z-index: 9999;
+            transition: transform 0.3s;
+            box-shadow: 0 0 50px rgba(255, 0, 64, 0.8);
+        }
+
+        .popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 50px;
+                margin-right: 0;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .chaos-btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Screen -->
+    <div class="intro" id="intro">
+        <h1 class="glitch-title">
+            <span>SPIDEY x YAYO:<br>THE BROVERSE OPENS</span>
+        </h1>
+        <button class="tap-enter" onclick="enterSite()">TAP TO ENTER</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Countdown Section -->
+        <section id="countdown-section">
+            <h2>THE COUNTDOWN</h2>
+            <div class="countdown-container">
+                <p class="countdown-joke">Countdown until Yayo levels up.</p>
+                <div class="countdown" id="countdown">LOADING...</div>
+            </div>
+        </section>
+
+        <!-- Bros Section -->
+        <section>
+            <h2>WHAT ARE WE BROS IN?</h2>
+            <div class="bros-grid">
+                <div class="bro-card">
+                    <h3>🏋️ GYM BROS</h3>
+                    <p>best gym bro ever</p>
+                </div>
+                <div class="bro-card">
+                    <h3>🎂 BIRTHDAY BROS</h3>
+                    <p>or no cake at all</p>
+                </div>
+                <div class="bro-card">
+                    <h3>📸 CAMERA BROS</h3>
+                    <p></p>
+                </div>
+                <div class="bro-card">
+                    <h3>🎵 SONG BROS</h3>
+                    <p></p>
+                </div>
+                <div class="bro-card">
+                    <h3>🕷️ SPIDER-MAN BROS</h3>
+                    <p>with great bro power comes great bro responsibility.</p>
+                </div>
+                <div class="bro-card">
+                    <h3>♾️ EVERYTHING BROS</h3>
+                    <p>literally everything. no replacement for yayo. there's always a replacement for anyone but not for my yayo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section>
+            <h2>YAYO STATS</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <h3>STRENGTH</h3>
+                    <div class="stat-value">92</div>
+                </div>
+                <div class="stat-box">
+                    <h3>RIZ LEVEL</h3>
+                    <div class="stat-value">101</div>
+                </div>
+                <div class="stat-box">
+                    <h3>BRO ENERGY</h3>
+                    <div class="stat-value">9999</div>
+                </div>
+                <div class="stat-box">
+                    <h3>SLEEP SCHEDULE</h3>
+                    <div class="stat-value">???</div>
+                </div>
+                <div class="stat-box">
+                    <h3>MATURITY</h3>
+                    <div class="stat-value">MAX</div>
+                </div>
+                <div class="stat-box">
+                    <h3>LAUGH QUALITY</h3>
+                    <div class="stat-value">∞</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Letter Section -->
+        <section>
+            <h2>LETTER FROM SPIDEY</h2>
+            <div class="letter-panel">
+                <p>i remember the first time i saw you was at the English club you were fat but adorable, if im not wrong you were wearing the nike shirt that you stole from Hussain. also i remember when i brought PRIME and we came by your house and tried it with you.</p>
+                
+                <p>then i literality i did not see you for two years, but i remember you replying to me in the English club group "that's Ai" or smth like that. then when i saw you again was us going to Salman's for charismas Jan 1 and ever since that day we became the ultimate bros.</p>
+                
+                <p>you are one of the best ppl in the friend group if not the best you are the youngest but at the same time the most mature one. you might be annoying sometimes but still i love you and love the way you laugh it's always funny. i loved going to the gym with you were the best gym bro ever.</p>
+                
+                <p>also i'm soo proud of you for steping out and participating is a7dth frqaa from that alone i can see that you'll have a bright future and soon you gonna make money like me. im upset becuse we haven't ever got a private hangout together other than going to the gym, next time i comeback we should go out alone to a nice place.</p>
+                
+                <p>there's always a replacement for anyone but i don't think there's a replacement for my yayo. soooooo brooo happy birthday brooo my bro bro my gym bro my music bro my birthday bro bro bro bro bro you gonna be 15 and i'll be 18 sadly now i can't touch you but i promise as soon as you be 18 i'll be the first <3</p>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section>
+            <h2>FRIENDSHIP TIMELINE</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>First Meeting at English Club</h3>
+                        <p>Fat but adorable Yayo wearing that stolen Nike shirt from Hussain. The origin story begins.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>PRIME Tasting Arc</h3>
+                        <p>Spidey brought PRIME. We tried it at Yayo's house. Historic moment.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Two-Year Time Skip</h3>
+                        <p>Literally didn't see each other. Then Yayo replied "that's Ai" in the English club group.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Christmas Jan 1 = BRO ERA BEGINS</h3>
+                        <p>Went to Salman's. Ever since that day we became the ultimate bros. The universe aligned.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Gym Bro Era</h3>
+                        <p>Best gym bro ever. Weights were lifted. Gains were made. Yayo's laugh echoed through the gym.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Yayo Joins a7dth frqaa</h3>
+                        <p>Stepped out and participated. Spidey is proud. Bright future incoming.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Future: The Private Hangout</h3>
+                        <p>Next time Spidey comes back, we're going out alone to a nice place. Date pending.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chaos Buttons Section -->
+        <section>
+            <h2>CHAOS CONTROLS</h2>
+            <div class="chaos-buttons">
+                <button class="chaos-btn" onclick="activateBroMode()">ACTIVATE BRO MODE</button>
+                <button class="chaos-btn" onclick="playFart()">FART BUTTON</button>
+            </div>
+        </section>
+
+        <!-- Ending Section -->
+        <section class="ending">
+            <h2>BROHOOD<br>NEVER ENDS</h2>
+            <div class="spider-float"></div>
+        </section>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup" id="popup"></div>
+
+    <script>
+        // Background Piano Music
+        let bgMusic = null;
+        
+        function initBackgroundMusic() {
+            if (!bgMusic) {
+                bgMusic = new Audio('https://files.catbox.moe/k8vdpo.mp3'); // Calm piano loop
+                bgMusic.volume = 0.15;
+                bgMusic.loop = true;
+                bgMusic.play().catch(e => console.log('Autoplay blocked, will play on interaction'));
+            }
+        }
+        
+        // Start music on first interaction
+        document.addEventListener('click', function() {
+            if (!bgMusic) {
+                initBackgroundMusic();
+            }
+        }, { once: true });
+
+        // Audio Context for sound effects
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function enterSite() {
+            document.getElementById('intro').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('mainContent').classList.add('active');
+            }, 500);
+        }
+
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let targetDate = new Date(currentYear, 10, 28); // November 28 (month is 0-indexed)
+            
+            if (now > targetDate) {
+                targetDate = new Date(currentYear + 1, 10, 28);
+            }
+            
+            const diff = targetDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').innerHTML = 
+                `${days}D ${hours}H ${minutes}M ${seconds}S`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Activate Bro Mode
+        function activateBroMode() {
+            document.body.classList.add('shaking');
+            document.body.classList.add('flashing');
+            setTimeout(() => {
+                document.body.classList.remove('shaking');
+                document.body.classList.remove('flashing');
+            }, 1000);
+        }
+
+        // Fart Sound
+        function playFart() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 80;
+            oscillator.type = 'sawtooth';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+
+            showPopup('💨 BRUHHHH');
+        }
+
+        // Show Popup
+        function showPopup(text) {
+            const popup = document.getElementById('popup');
+            popup.textContent = text;
+            popup.classList.add('show');
+            
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
