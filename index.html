@@ -702,7 +702,7 @@
         function updateCountdown() {
             const now = new Date();
             const currentYear = now.getFullYear();
-            let targetDate = new Date(currentYear, 10, 28); // November 28 (month is 0-indexed)
+            let targetDate = new Date(currentYear, 10, 29); // November 28 (month is 0-indexed)
             
             if (now > targetDate) {
                 targetDate = new Date(currentYear + 1, 10, 28);
